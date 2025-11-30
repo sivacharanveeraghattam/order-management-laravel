@@ -17,15 +17,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Product::active(); // Only show non-deleted products
+            $query = Product::active();
 
-            // **Bonus: Search & Filter**
             if ($request->has('search')) {
                 $query->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('sku', 'like', '%' . $request->search . '%');
             }
 
-            $products = $query->paginate(10); // **Bonus: Pagination**
+            $products = $query->paginate(10);
 
             return response()->json([
                 'success' => true,
@@ -70,19 +69,13 @@ class ProductController extends Controller
                 ], 422);
             }
 
-            $product = Product::create($request->validated());
+            $product = Product::create($validator->validated());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Product created successfully',
                 'data' => $product
             ], 201);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $e->errors()
-            ], 422);
         } catch (\Exception $e) {
             Log::error('Product creation failed', [
                 'request' => $request->all(),
@@ -130,7 +123,6 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         try {
-            // Check if product exists and not deleted
             if ($product->trashed()) {
                 return response()->json([
                     'success' => false,
@@ -153,25 +145,18 @@ class ProductController extends Controller
                 ], 422);
             }
 
-            $product->update($request->validated());
+            $product->update($validator->validated());
 
             return response()->json([
                 'success' => true,
                 'message' => 'Product updated successfully',
                 'data' => $product->fresh()
             ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $e->errors()
-            ], 422);
         } catch (\Exception $e) {
             Log::error('Product update failed', [
                 'product_id' => $product->id,
                 'error' => $e->getMessage()
             ]);
-
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update product'
