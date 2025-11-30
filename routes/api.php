@@ -18,10 +18,6 @@ Route::prefix('v1')->group(function () {
 });
 
 
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-
-    // **PRODUCTS CRUD**
-    Route::apiResource('products', ProductController::class);
-});
+/* Route::middleware(['web', 'auth'])->group(function () { */
+Route::apiResource('products', ProductController::class);
+/* }); */
