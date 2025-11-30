@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "b222531c-2bdf-4d37-ab3b-80280324c403",
+		"name": "Order Management API – Session Auth (Laravel 12)",
+		"description": "Register → Login → Me → Logout (Session + Cookie based)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31682235",
+		"_collection_link": "https://trip-creation.postman.co/workspace/36b3e5be-b933-4235-8db3-b62629f238a1/collection/31682235-b222531c-2bdf-4d37-ab3b-80280324c403?action=share&source=collection_link&creator=31682235"
+	},
+	"item": [
+		{
+			"name": "REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Siva Kumar\",\n    \"email\": \"siva1@example.com\",\n    \"password\": \"123456\",\n    \"password_confirmation\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"siva@example.com\",\n    \"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ME (Get Current User)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGOUT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/logout",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"description": "Change port if needed"
+		}
+	]
+}

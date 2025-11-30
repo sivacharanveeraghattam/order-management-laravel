@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "76967dbd-843a-4ce3-98a4-df8b353c14cc",
+		"name": "Order Management API (C & D)",
+		"description": "POST /api/orders & GET /api/orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31682235",
+		"_collection_link": "https://trip-creation.postman.co/workspace/36b3e5be-b933-4235-8db3-b62629f238a1/collection/31682235-76967dbd-843a-4ce3-98a4-df8b353c14cc?action=share&source=collection_link&creator=31682235"
+	},
+	"item": [
+		{
+			"name": "1. LOGIN (Required First)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C. CREATE ORDER ✅",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Order created successfully\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.message).to.eql('Order created successfully');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"items\": [\n    { \"product_id\": 2, \"quantity\": 3 },\n    { \"product_id\": 5, \"quantity\": 1 }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D. LIST ORDERS ✅",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Orders retrieved\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.message).to.eql('Orders retrieved successfully');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET PRODUCTS (Check IDs)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/products",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "cookie",
+		"cookie": [
+			{
+				"key": "XSRF-TOKEN",
+				"value": "{{xsrf_token}}",
+				"type": "string"
+			},
+			{
+				"key": "laravel_session",
+				"value": "{{laravel_session}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		}
+	]
+}
