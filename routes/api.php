@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::prefix('v1')->group(function () {
 
@@ -14,4 +15,13 @@ Route::prefix('v1')->group(function () {
         Route::get('me',      [AuthController::class, 'me']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
+});
+
+
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // **PRODUCTS CRUD**
+    Route::apiResource('products', ProductController::class);
 });
